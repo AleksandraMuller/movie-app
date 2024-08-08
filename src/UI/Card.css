@@ -1,0 +1,14 @@
+.card {
+  border: 1px solid white;
+  color: white;
+}
+.card__card_title {
+  border-bottom: 1px solid white;
+  padding: 1rem;
+  background-color: #0057b7;
+}
+
+.card__card_content {
+  padding: 1rem;
+  background-color: #1f1f1f;
+}

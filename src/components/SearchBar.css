@@ -1,0 +1,10 @@
+.searchbar {
+  flex-grow: 1;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+.searchbar__card__card_title {
+  display: flex;
+  flex-direction: column;
+}

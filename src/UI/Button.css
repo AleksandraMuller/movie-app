@@ -1,0 +1,9 @@
+.button {
+  padding: 1rem;
+  align-self: flex-end;
+}
+.button_element {
+  padding: 1rem;
+  width: 7rem;
+  cursor: pointer;
+}
