@@ -1,0 +1,10 @@
+.movielist {
+  flex-grow: 3;
+  color: white;
+}
+
+.movielist_header {
+  border-top: 1px solid rgb(120, 113, 113);
+  border-bottom: 1px solid rgb(120, 113, 113);
+  display: flex;
+}
