@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 import Checkbox from '../UI/Checkbox';
@@ -12,11 +12,17 @@ type GenreProps = {
 };
 
 const SearchBar = () => {
-  const { genres, loading, error } = useGenreList(); //TODO: LOADING AND ERROR HANDLING OF GENRES
+  const [searchValue, setSearchValue] = useState<string>('');
+  const { genres } = useGenreList(); //TODO: LOADING AND ERROR HANDLING OF GENRES
+
+  console.log('SEARCH VALUE', searchValue);
   return (
     <div className='searchbar'>
       <Card title='Search by title' className='searchbar__card__card_title'>
-        <Input />
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
         <Button />
       </Card>
       <Card title='Search by genres'>
