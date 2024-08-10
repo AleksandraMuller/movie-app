@@ -1,9 +1,15 @@
 import './Button.css';
 
-const Button = () => {
+type Props = {
+  onClick: () => void;
+};
+
+const Button = ({ onClick }: Props) => {
   return (
     <div className='button'>
-      <button className='button_element'>Search --</button>
+      <button className='button_element' onClick={onClick}>
+        Search --
+      </button>
     </div>
   );
 };
