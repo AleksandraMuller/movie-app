@@ -1,4 +1,23 @@
 .listitem {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 10px 0;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(120, 113, 113);
+  gap: 1rem;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 0;
+  }
+}
+
+.listitem_item {
+  flex: 1;
+  text-align: center;
+}
+
+.listitem_item_image {
+  width: 200px;
+  height: 300px;
 }

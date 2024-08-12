@@ -1,11 +1,44 @@
 .movielist {
   flex-grow: 3;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2rem;
 }
 
 .movielist_header {
-  border-top: 1px solid rgb(120, 113, 113);
-  border-bottom: 1px solid rgb(120, 113, 113);
+  display: none;
+  @media (min-width: 768px) {
+    border-top: 1px solid rgb(120, 113, 113);
+    border-bottom: 1px solid rgb(120, 113, 113);
+    display: flex;
+    padding: 1rem 0;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+}
+
+.movielist_header_image,
+.movielist_header_item {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+}
+
+.movielist_header_image {
+  flex: 0 0 200px;
+}
+
+.movielist_button_group {
   display: flex;
-  padding: 1rem 0;
+  justify-content: space-around;
+}
+
+.movielist_total_pages {
+  display: flex;
+  gap: 1rem;
+  font-weight: bold;
+  justify-content: center;
 }

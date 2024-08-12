@@ -1,9 +1,12 @@
+import Button from '../UI/Button';
 import ListItem from '../UI/ListItem';
 import { useMoviesContext } from '../context/MoviesContext';
 import './MovieList.css';
 
+const movieListHeaderItems = ['Year', 'Title', 'Rating', 'Genre'];
+
 const MovieList = () => {
-  const { movies, genres } = useMoviesContext();
+  const { movies, genres, setPage, page, totalPages } = useMoviesContext();
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds
@@ -14,15 +17,33 @@ const MovieList = () => {
       .join(', ');
   };
 
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+  const handlePreviousPage = () => {
+    setPage((prev) => prev - 1);
+  };
+
   return (
     <div className='movielist'>
       <div className='movielist_header'>
         <div className='movielist_header_image'></div>
-        <p className='movielist_header_year'>Year</p>
-        <p className='movielist_header_title'>Title</p>
-        <p className='movielist_header_rating'>Rating</p>
-        <p>Genre</p>
+        {movieListHeaderItems.map((item) => {
+          return (
+            <p key={item} className='movielist_header_item'>
+              {item}
+            </p>
+          );
+        })}
       </div>
+      {movies.length > 0 && (
+        <div className='movielist_total_pages'>
+          <p>Page:</p>
+          <p>
+            {page}/{totalPages}
+          </p>
+        </div>
+      )}
       {movies.map((movie) => {
         return (
           <ListItem
@@ -35,6 +56,14 @@ const MovieList = () => {
           />
         );
       })}
+      <div className='movielist_button_group'>
+        {page > 1 && (
+          <Button onClick={handlePreviousPage} label='Previous'></Button>
+        )}
+        {page !== totalPages && (
+          <Button onClick={handleNextPage} label='Next'></Button>
+        )}
+      </div>
     </div>
   );
 };

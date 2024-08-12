@@ -10,15 +10,25 @@ type Props = {
 
 const ListItem = ({ title, image, rating, year, genres }: Props) => {
   const baseUrl = 'https://image.tmdb.org/t/p/';
-  const size = 'w300';
-  const imageUrl = `${baseUrl}${size}${image}`;
+  const size = 'w200';
+  const imageUrl = image
+    ? `${baseUrl}${size}${image}`
+    : '/image-not-found.webp';
   return (
     <div className='listitem'>
-      <img src={imageUrl} alt='with sign of react'></img>
-      <p className='listitem_year'>{year ? year : '-'}</p>
-      <p className='listitem_title'>{title ? title : '-'}</p>
-      <p className='listitem_rating'>{rating ? Math.floor(rating) : '-'}</p>
-      <p>{genres ? genres : '-'}</p>
+      <img
+        src={imageUrl}
+        alt='with sign of react'
+        className='listitem_item_image'
+      ></img>
+      <p className='listitem_item'>
+        {year ? new Date(year).getFullYear() : '-'}
+      </p>
+      <p className='listitem_item'>{title ? title : '-'}</p>
+      <p className='listitem_item'>
+        {rating ? Number(rating.toFixed(1)) : '-'}
+      </p>
+      <p className='listitem_item'>{genres ? genres : '-'}</p>
     </div>
   );
 };
