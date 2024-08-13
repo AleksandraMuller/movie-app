@@ -36,6 +36,12 @@ const MovieList = () => {
           );
         })}
       </div>
+      {movies.length === 0 && (
+        <div className='movielist_empty'>
+          <h3>Nothing to see here yet.</h3>
+          <p>Start searching...</p>
+        </div>
+      )}
       {movies.length > 0 && (
         <div className='movielist_total_pages'>
           <p>Page:</p>

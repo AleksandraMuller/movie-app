@@ -42,3 +42,9 @@
   font-weight: bold;
   justify-content: center;
 }
+
+.movielist_empty {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}

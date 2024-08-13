@@ -8,6 +8,8 @@ type Props = {
   selectedRatingIds: number[];
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedGenreIds: React.Dispatch<React.SetStateAction<number[]>>;
+  setSelectedRatingIds: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 type MovieProps = {
@@ -30,6 +32,8 @@ export const useMoviesList = ({
   selectedRatingIds,
   page,
   setPage,
+  setSelectedRatingIds,
+  setSelectedGenreIds,
 }: Props) => {
   const [movies, setMovies] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,16 +41,44 @@ export const useMoviesList = ({
 
   useEffect(() => {
     setPage(1);
-  }, [fetchValue]);
+    setSelectedRatingIds([]);
+    setSelectedGenreIds([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchValue, setPage]);
 
   useEffect(() => {
-    if (!fetchValue.trim()) {
-      setMovies(null);
-      setLoading(false);
-      return;
-    }
+    const fetchDiscoverMovies = async () => {
+      try {
+        const response = await axios.get<ApiResponse>(
+          urls.GET_MOVIES_BY_GENRE,
+          {
+            params: {
+              page,
+              with_genres: selectedGenreIds.join(', '),
+              'vote_average.gte':
+                selectedRatingIds.length > 0
+                  ? Math.min(...selectedRatingIds)
+                  : undefined,
+              'vote_average.lte':
+                selectedRatingIds.length > 0
+                  ? Math.max(...selectedRatingIds) + 0.9
+                  : undefined,
+            },
+          }
+        );
 
-    async function fetchMovies() {
+        setMovies(response.data);
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        console.error('Error fetching discover movies:', axiosError);
+        setError(axiosError);
+        setMovies(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchMovies = async () => {
       try {
         const response = await axios.get<ApiResponse>(
           urls.GET_MOVIES_BY_TITLE,
@@ -59,19 +91,33 @@ export const useMoviesList = ({
         );
 
         setMovies(response.data);
-        setLoading(false);
       } catch (error) {
         const axiosError = error as AxiosError;
-        console.error('Error fetching movies:', error);
+        console.error('Error fetching movies:', axiosError);
         setError(axiosError);
         setMovies(null);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    fetchMovies();
-  }, [fetchValue, page]);
+    setLoading(true);
+    setError(undefined);
+
+    if (
+      fetchValue.trim() ||
+      selectedGenreIds.length > 0 ||
+      selectedRatingIds.length > 0
+    ) {
+      if (fetchValue.trim()) {
+        fetchMovies();
+      } else {
+        fetchDiscoverMovies();
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [fetchValue, page, selectedGenreIds, selectedRatingIds]);
 
   const filteredMovies =
     movies?.results.filter((movie) => {

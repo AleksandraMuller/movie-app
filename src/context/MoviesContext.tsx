@@ -29,6 +29,8 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
     selectedRatingIds,
     page,
     setPage,
+    setSelectedGenreIds,
+    setSelectedRatingIds,
   });
   const { genres } = useGenreList();
 
