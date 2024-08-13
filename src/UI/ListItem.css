@@ -6,7 +6,10 @@
   flex-direction: column;
   border-bottom: 1px solid rgb(120, 113, 113);
   gap: 1rem;
-  @media (min-width: 768px) {
+}
+
+@media (min-width: 768px) {
+  .listitem {
     flex-direction: row;
     gap: 0;
   }
