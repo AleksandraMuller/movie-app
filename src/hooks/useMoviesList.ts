@@ -123,7 +123,7 @@ export const useMoviesList = ({
     movies?.results.filter((movie) => {
       const isGenreMatch =
         selectedGenreIds.length === 0 ||
-        movie.genre_ids.some((genreId) => selectedGenreIds.includes(genreId));
+        selectedGenreIds.every((genreId) => movie.genre_ids.includes(genreId));
 
       const isRatingMatch =
         selectedRatingIds.length === 0 ||
@@ -142,6 +142,7 @@ export const useMoviesList = ({
     movies: filteredMovies.length > 0 ? filteredMovies : [],
     page: movies?.page || 1,
     totalPages: movies?.total_pages || 1,
+    totalResults: movies?.total_results || 0,
     loading,
     error,
   };

@@ -8,8 +8,16 @@ import { scrollToTop } from '../utils';
 const movieListHeaderItems = ['Year', 'Title', 'Rating', 'Genre'];
 
 const MovieList = () => {
-  const { movies, genres, setPage, page, totalPages, loading, error } =
-    useMoviesContext();
+  const {
+    movies,
+    genres,
+    setPage,
+    page,
+    totalPages,
+    totalResults,
+    loading,
+    error,
+  } = useMoviesContext();
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds
@@ -47,7 +55,7 @@ const MovieList = () => {
           <p>Search for movies by title, genre or rating.</p>
         </div>
       )}
-      {movies.length > 0 && page && totalPages ? (
+      {page && totalPages && totalResults !== 0 ? (
         <div className='movielist_total_pages'>
           <p>Page:</p>
           <p>{`${page} / ${totalPages}`}</p>

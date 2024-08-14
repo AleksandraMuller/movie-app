@@ -15,6 +15,7 @@ type MoviesContextProps = {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
+  totalResults: number;
   isGenresLoading: boolean;
   genresError: AxiosError | undefined;
   loading: boolean;
@@ -28,7 +29,7 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedGenreIds, setSelectedGenreIds] = useState<number[]>([]);
   const [selectedRatingIds, setSelectedRatingIds] = useState<number[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { movies, totalPages, loading, error } = useMoviesList({
+  const { movies, totalPages, totalResults, loading, error } = useMoviesList({
     fetchValue,
     selectedGenreIds,
     selectedRatingIds,
@@ -53,6 +54,7 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
         page,
         setPage,
         totalPages,
+        totalResults,
         isGenresLoading,
         genresError,
         loading,
