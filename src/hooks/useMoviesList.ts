@@ -47,7 +47,7 @@ export const useMoviesList = ({
   }, [fetchValue, setPage]);
 
   useEffect(() => {
-    const fetchDiscoverMovies = async () => {
+    const fetchMoviesByGenreAndRating = async () => {
       try {
         const response = await axios.get<ApiResponse>(
           urls.GET_MOVIES_BY_GENRE,
@@ -78,7 +78,7 @@ export const useMoviesList = ({
       }
     };
 
-    const fetchMovies = async () => {
+    const fetchMoviesByTitle = async () => {
       try {
         const response = await axios.get<ApiResponse>(
           urls.GET_MOVIES_BY_TITLE,
@@ -110,9 +110,9 @@ export const useMoviesList = ({
       selectedRatingIds.length > 0
     ) {
       if (fetchValue.trim()) {
-        fetchMovies();
+        fetchMoviesByTitle();
       } else {
-        fetchDiscoverMovies();
+        fetchMoviesByGenreAndRating();
       }
     } else {
       setLoading(false);

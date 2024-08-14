@@ -1,12 +1,15 @@
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Button from '../UI/Button';
 import ListItem from '../UI/ListItem';
 import { useMoviesContext } from '../context/MoviesContext';
 import './MovieList.css';
+import { scrollToTop } from '../utils';
 
 const movieListHeaderItems = ['Year', 'Title', 'Rating', 'Genre'];
 
 const MovieList = () => {
-  const { movies, genres, setPage, page, totalPages } = useMoviesContext();
+  const { movies, genres, setPage, page, totalPages, loading, error } =
+    useMoviesContext();
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds
@@ -19,9 +22,11 @@ const MovieList = () => {
 
   const handleNextPage = () => {
     setPage((prev) => prev + 1);
+    scrollToTop();
   };
   const handlePreviousPage = () => {
     setPage((prev) => prev - 1);
+    scrollToTop();
   };
 
   return (
@@ -36,32 +41,42 @@ const MovieList = () => {
           );
         })}
       </div>
-      {movies.length === 0 && (
+      {movies.length === 0 && !loading && !error && (
         <div className='movielist_empty'>
           <h3>Nothing to see here yet.</h3>
-          <p>Start searching...</p>
+          <p>Search for movies by title, genre or rating.</p>
         </div>
       )}
-      {movies.length > 0 && (
+      {movies.length > 0 && page && totalPages ? (
         <div className='movielist_total_pages'>
           <p>Page:</p>
-          <p>
-            {page}/{totalPages}
-          </p>
+          <p>{`${page} / ${totalPages}`}</p>
         </div>
+      ) : null}
+      {loading ? (
+        <SkeletonTheme baseColor='#202020' highlightColor='#444'>
+          <p>
+            <Skeleton count={10} height={150} />
+          </p>
+        </SkeletonTheme>
+      ) : error ? (
+        <div className='movielist_error'>
+          Error loading movies: {error.message}
+        </div>
+      ) : (
+        movies.map((movie) => {
+          return (
+            <ListItem
+              key={movie.id}
+              title={movie.title}
+              image={movie.poster_path}
+              rating={movie.vote_average}
+              year={movie.release_date}
+              genres={getGenreNames(movie?.genre_ids)}
+            />
+          );
+        })
       )}
-      {movies.map((movie) => {
-        return (
-          <ListItem
-            key={movie.id}
-            title={movie.title}
-            image={movie.poster_path}
-            rating={movie.vote_average}
-            year={movie.release_date}
-            genres={getGenreNames(movie?.genre_ids)}
-          />
-        );
-      })}
       <div className='movielist_button_group'>
         {page > 1 && (
           <Button onClick={handlePreviousPage} label='Previous'></Button>

@@ -50,4 +50,10 @@
   display: flex;
   flex-direction: column;
   align-self: center;
+  text-align: center;
+}
+
+.movielist_error {
+  text-align: center;
+  width: 100%;
 }

@@ -5,3 +5,7 @@ export const urls = {
   GET_MOVIES_BY_TITLE: `${BASE_URL}/search/movie?include_adult=false&language=en-US&api_key=${API_KEY}`,
   GET_MOVIES_BY_GENRE: `${BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${API_KEY}`,
 };
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};

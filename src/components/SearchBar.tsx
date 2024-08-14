@@ -1,10 +1,12 @@
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 import Checkbox from '../UI/Checkbox';
 import Input from '../UI/Input';
 import './SearchBar.css';
 import { useMoviesContext } from '../context/MoviesContext';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 type GenreProps = {
   id: number;
@@ -24,8 +26,9 @@ const SearchBar = () => {
     setSelectedGenreIds,
     selectedRatingIds,
     setSelectedRatingIds,
+    isGenresLoading,
+    genresError,
   } = useMoviesContext();
-  //TODO: LOADING AND ERROR HANDLING OF GENRES
 
   const onCheckboxChange = (id: number) => {
     setSelectedGenreIds((prevIds) =>
@@ -51,17 +54,22 @@ const SearchBar = () => {
         <Button onClick={() => setFetchValue(searchValue)} label='Search' />
       </Card>
       <Card title='Search by genres'>
-        {genres.map((genre: GenreProps) => {
-          return (
-            <Suspense key={genre.id} fallback={<div>Loading genres...</div>}>
-              <Checkbox
-                label={genre.name}
-                isSelected={selectedGenreIds?.includes(genre.id)}
-                onCheckboxChange={() => onCheckboxChange(genre.id)}
-              />
-            </Suspense>
-          );
-        })}
+        {isGenresLoading ? (
+          <SkeletonTheme baseColor='#202020' highlightColor='#444'>
+            <Skeleton count={10} height={50} />
+          </SkeletonTheme>
+        ) : genresError ? (
+          <div>Error loading genres: {genresError.message}</div>
+        ) : (
+          genres.map((genre: GenreProps) => (
+            <Checkbox
+              key={genre.id}
+              label={genre.name}
+              isSelected={selectedGenreIds?.includes(genre.id)}
+              onCheckboxChange={() => onCheckboxChange(genre.id)}
+            />
+          ))
+        )}
       </Card>
       <Card title='Search by rating'>
         {ratingLabels.map((ratingLabel) => {

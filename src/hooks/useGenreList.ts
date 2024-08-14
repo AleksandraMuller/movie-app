@@ -25,5 +25,5 @@ export const useGenreList = () => {
     fetchGenres();
   }, []);
 
-  return { genres, loading, error };
+  return { genres, isGenresLoading: loading, genresError: error };
 };
